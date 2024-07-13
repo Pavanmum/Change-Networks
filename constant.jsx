@@ -3,7 +3,7 @@ export const Domain = [
   "http://mern.change-networks.com"
 ];
 
-export const Beta_URL = 0;
+export const Beta_URL = 1;
 
 export const API_URL_v1 = {
   // # Carrer Pages API
