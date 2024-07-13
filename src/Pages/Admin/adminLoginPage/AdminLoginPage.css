@@ -1,0 +1,25 @@
+.card:hover{
+    border: none;
+    box-shadow: none;
+    border-radius: none ;
+}
+
+.card{
+    outline: none;
+    border: none;
+    box-shadow: none;
+    border-radius: none ;
+}
+#card:hover{
+    border: none;
+    box-shadow: none;
+    border-radius: none ;
+}
+
+#card{
+    width: 500px;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    border-radius: none ;
+}

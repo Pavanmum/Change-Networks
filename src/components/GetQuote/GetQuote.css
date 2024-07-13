@@ -1,0 +1,21 @@
+.body{
+    background: rgb(0 0 0 / 26%);
+
+}
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.modal {
+    background: rgb(0 0 0 / 26%);
+}
+.form-control{
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 10px;
+    height: 35px;
+   
+}
+.getquote select{
+    height: 40px;
+}

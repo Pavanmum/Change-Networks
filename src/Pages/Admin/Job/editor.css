@@ -1,0 +1,29 @@
+.App {
+    margin: 20px;
+  }
+  
+  .editor-output {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+  }
+  
+  .ck-editor__editable {
+    min-height: 200px; /* Adjust the height value to match 5 rows */
+  }
+  
+  .ck.ck-editor__main > .ck-editor__editable {
+    padding: 0.5rem; /* Add padding similar to the textarea */
+  }
+  
+  .ck-editor__editable_inline {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+
+
+
+.border-none {
+  border: none !important;
+}

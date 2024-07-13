@@ -1,0 +1,7 @@
+
+  .stock-list-container {
+    flex: 1;
+    margin-top: 45px;
+    
+    overflow-y: hidden; /* Enable vertical scrolling for the stock list */
+  }

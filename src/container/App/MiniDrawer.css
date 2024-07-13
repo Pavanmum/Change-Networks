@@ -1,0 +1,77 @@
+/* MiniDrawer.css */
+.sidebar {
+  width: 55px; /* Updated width when closed */
+  height: 100vh;
+  transition: width 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-y: hidden; /* Allow vertical scrolling */
+}
+
+.header{
+  /* background-color: #f8f9fa; */
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  border: "none !important";
+  /* box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1); */
+}
+
+.sidebar.open {
+  width: 200px; /* Updated width when open */
+  overflow: hidden;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-vertical-container .main{
+  overflow: auto;
+  max-height: calc(100% - 50px); /* Adjust height based on header */
+}
+
+.main-content {
+  margin-left: 4px; /* Updated margin when sidebar is closed */
+  transition: margin-left 0.3s ease;
+}
+
+.main-content .main {
+  padding-left: 24px; 
+   margin-top: 20px; 
+   
+  /* Margin added for main content */
+}
+
+.sidebar.open + .main-content {
+  margin-left: 200px; /* Updated margin when sidebar is open */
+}
+
+.page-header-title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.navbar-input-group .form-control {
+  /* padding: 0.375rem 0.75rem; */
+}
+
+.avatar-status-success {
+  background-color: #28a745;
+}
+
+
+.nav-item  .nav-link {
+  color: #000000;
+}
+
+.sidebar:not(.open) + .main-content {
+  margin-left: 60px; /* Margin when sidebar is closed */
+  margin-top: 0; /* No margin at the top */
+}

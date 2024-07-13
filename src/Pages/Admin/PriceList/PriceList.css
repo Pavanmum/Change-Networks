@@ -1,0 +1,47 @@
+.price-list-container {
+    display: flex;
+   
+    flex-direction: column;
+    height: 100vh; /* Adjust this height if necessary */
+    overflow-x: hidden; /* Hide vertical scrollbar */
+  }
+  .table-container {
+    overflow-y: hidden;
+  }
+  .header-container {
+    position: fixed;
+    top: 50px;
+    width:90%;
+    z-index: 100; /* Ensure the header stays above other content */
+    background-color: #fff; /* Adjust the background color as needed */
+  }
+  
+  .stock-list-container {
+    flex: 1;
+    margin-top: 45px;
+    overflow-y: hidden; /* Enable vertical scrolling for the stock list */
+  }
+  .no-data-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+  }
+  
+  .no-data-image {
+    width: 10rem;
+    margin-bottom: 1rem;
+  }
+  
+  .no-data-text {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #555;
+  }
