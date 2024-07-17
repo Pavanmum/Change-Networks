@@ -127,9 +127,9 @@ const Navbar = () => {
             </li>
 
             <li className="nav-item">
-              <a href="/ciscoGPL" className="nav-link">
+              <Link to="/ciscoGPL" className="nav-link">
                 CISCO GPL
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <UncontrolledDropdown className="button-dropdown">

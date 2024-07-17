@@ -87,22 +87,22 @@ const FilterGallery = () => {
               All
             </Button>
 
-            <Dropdown.Button overlay={renderMenu(category.Switches)} onClick={() => handleClick("Switches")} placement="bottom" icon={<DownOutlined />}>
+            <Dropdown.Button overlay={renderMenu(category?.Switches)} onClick={() => handleClick("Switches")} placement="bottom" icon={<DownOutlined />}>
               Switch
             </Dropdown.Button>
-            <Dropdown.Button overlay={renderMenu(category.Wireless)} onClick={() => handleClick("Wireless")} placement="bottom" icon={<DownOutlined />}>
+            <Dropdown.Button overlay={renderMenu(category?.Wireless)} onClick={() => handleClick("Wireless")} placement="bottom" icon={<DownOutlined />}>
               Wireless
             </Dropdown.Button>
-            <Dropdown.Button overlay={renderMenu(category.Routers)} onClick={() => handleClick("Routers")} placement="bottom" icon={<DownOutlined />}>
+            <Dropdown.Button overlay={renderMenu(category?.Routers)} onClick={() => handleClick("Routers")} placement="bottom" icon={<DownOutlined />}>
               Routers
             </Dropdown.Button>
-            <Dropdown.Button overlay={renderMenu(category.Firewalls)} onClick={() => handleClick("Firewalls")} placement="bottom" icon={<DownOutlined />}>
+            <Dropdown.Button overlay={renderMenu(category?.Firewalls)} onClick={() => handleClick("Firewalls")} placement="bottom" icon={<DownOutlined />}>
               Firewalls
             </Dropdown.Button>
-            <Dropdown.Button overlay={renderMenu(category.IPPhones)} onClick={() => handleClick("IPPhones")} placement="bottom" icon={<DownOutlined />} >
+            <Dropdown.Button overlay={renderMenu(category?.IPPhones)} onClick={() => handleClick("IPPhones")} placement="bottom" icon={<DownOutlined />} >
               IP Phones
             </Dropdown.Button>
-            <Dropdown.Button overlay={renderMenu(category.Others)} onClick={() => handleClick("Others")} placement="bottom" icon={<DownOutlined />}>
+            <Dropdown.Button overlay={renderMenu(category?.Others)} onClick={() => handleClick("Others")} placement="bottom" icon={<DownOutlined />}>
               Others
             </Dropdown.Button>
             <Button onClick={() => handleClick("COMMANDO")} placement="bottom">COMMANDO</Button>

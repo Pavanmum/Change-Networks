@@ -1,6 +1,6 @@
 export const Domain = [
   "http://localhost:5000",
-  "http://mern.change-networks.com"
+  "http://backend.mern.change-networks.com"
 ];
 
 export const Beta_URL = 1;

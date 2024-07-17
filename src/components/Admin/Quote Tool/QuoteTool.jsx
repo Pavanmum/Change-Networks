@@ -21,7 +21,7 @@ const QuoteTool = ({ setEditCustomer, setAddCustomer }) => {
   const selectedbox = useSelector(
     (state) => state.quoteMatrixSlice.selectEditBox
   );
-  const  userDetial = useSelector(selectUserDetail);
+  const userDetial = useSelector(selectUserDetail);
   const reportTemplateRef = useRef(null);
   const [basic, setBasic] = useState(true);
   const [exwork, setExwork] = useState("");
@@ -39,7 +39,6 @@ const QuoteTool = ({ setEditCustomer, setAddCustomer }) => {
   const [checkboxCustomerData, setCheckBoxCustomerData] = useState([]);
   const typingTimeoutRef = useRef(null);
   useEffect(() => {
-    
     if (selectedbox) {
       setCountry(checkBoxData[0].country);
 
@@ -155,7 +154,6 @@ const QuoteTool = ({ setEditCustomer, setAddCustomer }) => {
         },
       });
       if (selectedbox) {
-        
         const selectedCustomerIds = checkboxCustomerData
           .map((item) => {
             const foundCustomer = customerUserData.find(
@@ -183,86 +181,98 @@ const QuoteTool = ({ setEditCustomer, setAddCustomer }) => {
     typingTimeoutRef.current = setTimeout(() => {
       updateSearchData(value);
     }, 1000); // 3 seconds delay
-   
   };
-  
+
   useEffect(() => {
     if (searchData) {
       updateSearchData(String(searchData));
     }
   }, [searchData]);
-const updateSearchData = async (value) => {
-  if (!value) return;
+  const updateSearchData = async (value) => {
+    if (!value) return;
 
-  const updatedData = [];
-  const entries = value.split(/,|\n/).filter(Boolean);
+    const updatedData = [];
+    const entries = value.split(/,|\n/).filter(Boolean);
 
-  for (let entry of entries) {
-    const [procCode, qty] = entry.trim().split(/\s+/);
-    if (procCode && !isNaN(qty)) {
-      updatedData.push({ procCode, qty });
-    } else {
-      toast.error("Please enter a valid quantity.");
-      return; // Exit if any entry is invalid
-    }
-  }
-
-  // Initialize data for bulk search
-  const data = updatedData.map(item => item.procCode);
-  
-  try {
-    setIsLoading(true);
-    const res = await getBulkSearch(data);
-
-    if (!res || res.data.length === 0) {
-      toast.error("Product not found");
-      setSearchedValueProduct([]);
-      return;
-    }
-
-    const updatedProducts = updatedData.map(item => {
-      const productMatch = res.data.find(p => p.proc_code === item.procCode);
-      if (productMatch) {
-        return { ...productMatch, qty: Number(item.qty) };
-      }
-      return null;
-    });
-
-    const filteredProducts = updatedProducts.filter(product => product !== null);
-
-    if (selectedbox) {
-      if (filteredProducts.length > 0) {
-        const updatedList = checkBoxData[0].products.map(item => {
-          const data = filteredProducts.find(pro => item.product_code === pro.proc_code);
-          const newUnitPrice = parseFloat(item.unit_price);
-          const listPrice = parseFloat(item.list_price);
-
-          if (data) {
-            if (newUnitPrice <= listPrice) {
-              const calculatedDiscount = (((listPrice - newUnitPrice) / listPrice) * 100).toFixed(2);
-              return { ...item, unit_price: newUnitPrice, discount: calculatedDiscount };
-            } else {
-              return { ...item, unit_price: newUnitPrice, discount: 0 };
-            }
-          } else {
-            return item; // Return original item if no match found in filteredProducts
-          }
-        });
-
-        setSearchedValueProduct(updatedList);
+    for (let entry of entries) {
+      const [procCode, qty] = entry.trim().split(/\s+/);
+      if (procCode && !isNaN(qty)) {
+        updatedData.push({ procCode, qty });
       } else {
-        setSearchedValueProduct([]);
+        toast.error("Please enter a valid quantity.");
+        return; // Exit if any entry is invalid
       }
-    } else {
-      setSearchedValueProduct(filteredProducts);
     }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    toast.error("Error fetching product data. Please try again later.");
-  } finally {
-    setIsLoading(false);
-  }
-};
+
+    // Initialize data for bulk search
+    const data = updatedData.map((item) => item.procCode);
+
+    try {
+      setIsLoading(true);
+      const res = await getBulkSearch(data);
+
+      if (!res || res.data.length === 0) {
+        toast.error("Product not found");
+        setSearchedValueProduct([]);
+        return;
+      }
+
+      const updatedProducts = updatedData.map((item) => {
+        const productMatch = res.data.find(
+          (p) => p.proc_code === item.procCode
+        );
+        if (productMatch) {
+          return { ...productMatch, qty: Number(item.qty) };
+        }
+        return null;
+      });
+
+      const filteredProducts = updatedProducts.filter(
+        (product) => product !== null
+      );
+
+      if (selectedbox) {
+        if (filteredProducts.length > 0) {
+          const updatedList = checkBoxData[0].products.map((item) => {
+            const data = filteredProducts.find(
+              (pro) => item.product_code === pro.proc_code
+            );
+            const newUnitPrice = parseFloat(item.unit_price);
+            const listPrice = parseFloat(item.list_price);
+
+            if (data) {
+              if (newUnitPrice <= listPrice) {
+                const calculatedDiscount = (
+                  ((listPrice - newUnitPrice) / listPrice) *
+                  100
+                ).toFixed(2);
+                return {
+                  ...item,
+                  unit_price: newUnitPrice,
+                  discount: calculatedDiscount,
+                };
+              } else {
+                return { ...item, unit_price: newUnitPrice, discount: 0 };
+              }
+            } else {
+              return item; // Return original item if no match found in filteredProducts
+            }
+          });
+
+          setSearchedValueProduct(updatedList);
+        } else {
+          setSearchedValueProduct([]);
+        }
+      } else {
+        setSearchedValueProduct(filteredProducts);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("Error fetching product data. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleExworkChange = (e) => {
     const value = e.target.value;
@@ -296,12 +306,22 @@ const updateSearchData = async (value) => {
   };
 
   const handleUnitPriceChange = (e, index) => {
-    const newUnitPrice = parseFloat(e);
+    const newUnitPrice = e === "" ? "" : parseFloat(e); // Allow empty input
     const item = searchedValueProduct[index];
     const listPrice = parseFloat(item.price);
 
     // Calculate discount only if unit price is less than or equal to list price
-    if (newUnitPrice <= listPrice) {
+    if (newUnitPrice === "") {
+      // Allow clearing the unit price
+      const updatedItem = {
+        ...item,
+        unit_price: "",
+        discount: "",
+      };
+      const updatedList = [...searchedValueProduct];
+      updatedList[index] = updatedItem;
+      setSearchedValueProduct(updatedList);
+    } else if (newUnitPrice <= listPrice) {
       const calculatedDiscount = (
         ((listPrice - newUnitPrice) / listPrice) *
         100
@@ -326,21 +346,27 @@ const updateSearchData = async (value) => {
       setSearchedValueProduct(updatedList);
     }
   };
-
   const handleDiscountChange = (e, index) => {
-    let newDiscount = e.target.value.trim();
-    if (newDiscount === "" || newDiscount.length <= 2) {
+    const newDiscount = e.target.value.trim() === "" ? "" : parseFloat(e.target.value.trim());
+    const item = searchedValueProduct[index];
+    const listPrice = parseFloat(item.price);
+  
+    if (newDiscount === "" || !isNaN(newDiscount)) {
       // Update the item in the searchedValueProduct array
-      const item = searchedValueProduct[index];
       const updatedItem = {
         ...item,
-        discount: newDiscount,
+        discount: newDiscount === "" ? "" : newDiscount,
+        unit_price:
+          newDiscount === "" || newDiscount > 100
+            ? ""
+            : (listPrice - (listPrice * newDiscount) / 100).toFixed(2), // Calculate unit price based on discount
       };
       const updatedList = [...searchedValueProduct];
       updatedList[index] = updatedItem;
       setSearchedValueProduct(updatedList);
     }
   };
+
   const handleExcelDownload = async () => {
     try {
       if (!selectRef.current || !selectRef.current.slim) {
@@ -387,7 +413,7 @@ const updateSearchData = async (value) => {
         customer_id: selectedCustomer.partner_id,
         customer_type: "", // Add actual customer type if needed
         total_price: totalPrice, // Will be updated later
-        created_by:userDetial.data.user_id || userDetial.data.email
+        created_by: userDetial.data.user_id || userDetial.data.email,
       };
 
       searchedValueProduct.forEach((item) => {
@@ -640,91 +666,87 @@ const updateSearchData = async (value) => {
       );
       setCustomerData(selectedCustomer);
     }
-    if(!customerData){
-      toast.error("please Select a customer")
-    }
-    else if(!exwork){
-      toast.error("Please select ex-work")
-    }
-    else if(!searchedValueProduct.length){
-      toast.error("please add a product with qty")
-    }
-   else{
-
-     let quote = {
-       products: [],
-      quote_type: basic ? "basic" : "standard",
-      exwork: exwork,
-      currency:
-      currency === "$"
-      ? "USD"
-          : currency === null
-          ? "AED"
-          : currency === "¥"
-          ? "RMB"
-          : "",
-      country: country,
-      customer_id: customerData.partner_id,
-      customer_type: "", // Add actual customer type if needed
-      total_price: 0, // Will be updated later
-      created_by:userDetial.data.user_id || userDetial.data.email
-    };
-
-    searchedValueProduct.forEach((item) => {
-      const unitPrice = parseFloat(item.unit_price) || 0;
-      const quantity = parseFloat(item.qty) || 0;
-      const discount = parseFloat(item.discount) || 0;
-      const linePrice = (unitPrice * quantity * (1 - discount / 100)).toFixed(
-        2
-      );
-      const totalPrice = searchedValueProduct
-      .reduce(
-        (total, item) =>
-          total +
-        (item.unit_price || 0) *
-        item.qty *
-        (1 - (item.discount || 0) / 100),
-        0
-      )
-      .toFixed(2);
-      
-      const productDetails = {
-        product_code: item.proc_code || item.product_code,
-        description: item.pro_desc || item.description, // Assuming `pro_desc` contains the product description
-        qty: quantity,
-        list_price: parseFloat(item.price) || 0,
-        unit_price: unitPrice,
-        discount: discount,
-        line_price: parseFloat(linePrice),
-        totalPrice: totalPrice,
+    if (!customerData) {
+      toast.error("please Select a customer");
+    } else if (!exwork) {
+      toast.error("Please select ex-work");
+    } else if (!searchedValueProduct.length) {
+      toast.error("please add a product with qty");
+    } else {
+      let quote = {
+        products: [],
+        quote_type: basic ? "basic" : "standard",
+        exwork: exwork,
+        currency:
+          currency === "$"
+            ? "USD"
+            : currency === null
+            ? "AED"
+            : currency === "¥"
+            ? "RMB"
+            : "",
+        country: country,
+        customer_id: customerData.partner_id,
+        customer_type: "", // Add actual customer type if needed
+        total_price: 0, // Will be updated later
+        created_by: userDetial.data.user_id || userDetial.data.email,
       };
-      
-      quote.products.push(productDetails);
-    });
-    
-    const res = await addQuoteData(quote);
-    setQuoteNo(res.data);
-    const doc = new jsPDF({
-      format: "a4",
-      unit: "px",
-      orientation: "p",
-    });
-    
-    doc.setFont("Arial");
-    
-    doc.html(reportTemplateRef.current, {
-      async callback(doc) {
-        await doc.save(`${res.data}.pdf`);
-      },
-      margin: 5,
-      x: 5,
-      y: 5,
-      width: 425,
-      windowWidth: 800,
-    });
-  }
+
+      searchedValueProduct.forEach((item) => {
+        const unitPrice = parseFloat(item.unit_price) || 0;
+        const quantity = parseFloat(item.qty) || 0;
+        const discount = parseFloat(item.discount) || 0;
+        const linePrice = (unitPrice * quantity * (1 - discount / 100)).toFixed(
+          2
+        );
+        const totalPrice = searchedValueProduct
+          .reduce(
+            (total, item) =>
+              total +
+              (item.unit_price || 0) *
+                item.qty *
+                (1 - (item.discount || 0) / 100),
+            0
+          )
+          .toFixed(2);
+
+        const productDetails = {
+          product_code: item.proc_code || item.product_code,
+          description: item.pro_desc || item.description, // Assuming `pro_desc` contains the product description
+          qty: quantity,
+          list_price: parseFloat(item.price) || 0,
+          unit_price: unitPrice,
+          discount: discount,
+          line_price: parseFloat(linePrice),
+          totalPrice: totalPrice,
+        };
+
+        quote.products.push(productDetails);
+      });
+
+      const res = await addQuoteData(quote);
+      setQuoteNo(res.data);
+      const doc = new jsPDF({
+        format: "a4",
+        unit: "px",
+        orientation: "p",
+      });
+
+      doc.setFont("Arial");
+
+      doc.html(reportTemplateRef.current, {
+        async callback(doc) {
+          await doc.save(`${res.data}.pdf`);
+        },
+        margin: 5,
+        x: 5,
+        y: 5,
+        width: 425,
+        windowWidth: 800,
+      });
+    }
   };
-  
+
   return (
     <main
       id="content"
@@ -928,10 +950,7 @@ const updateSearchData = async (value) => {
                     </label>
                     <div className="col-sm-7 mb-2 mb-lg-0">
                       {/* Using Slim Select for the dropdown */}
-                      <select
-                        id="customerSelect"
-                        ref={selectRef}
-                      ></select>
+                      <select id="customerSelect" ref={selectRef}></select>
                     </div>
 
                     <div className="col-sm-2 d-flex">
@@ -1076,7 +1095,7 @@ const updateSearchData = async (value) => {
                             const product = products.find(
                               (pro) => pro.product_code === item.proc_code
                             );
-                           return (
+                            return (
                               <tr key={index}>
                                 <td className="table-column-pe-0 text-center">
                                   {index + 1}
@@ -1093,19 +1112,17 @@ const updateSearchData = async (value) => {
                                   {item.price || item.list_price}
                                 </td>
                                 <td className="text-left">
-                                  {/* Input for Unit Price */}
                                   <input
                                     type="text"
                                     className="form-control"
                                     value={
-                                      item.unit_price !== undefined ||
-                                      item.unit_price === 0
+                                      item.unit_price !== undefined
                                         ? String(item.unit_price)
                                         : ""
                                     }
                                     onChange={(e) =>
                                       handleUnitPriceChange(
-                                        e.target.value || product.unit_price,
+                                        e.target.value,
                                         index
                                       )
                                     }
@@ -1162,7 +1179,6 @@ const updateSearchData = async (value) => {
                               {
                                 searchedValueProduct &&
                                 searchedValueProduct.length > 0
-
                                   ? searchedValueProduct
                                       .reduce(
                                         (total, item) =>

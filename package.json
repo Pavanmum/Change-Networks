@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-     "postinstall": "rm -rf node_modules package-lock.json && npm install"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@ckbox/components": "^2.4.0",
